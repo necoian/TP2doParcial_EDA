@@ -1,0 +1,31 @@
+1. Dime como hablas y sabré muchas cosas 
+Introducción: 
+Una de las formas más inmediatas para detectar la inteligencia de una persona es su 
+capacidad de expresión, tanto oral como escrita: articular palabras, enunciados y frases 
+lógicamente coherentes es una acción que requiere de una velocidad de pensamiento y un 
+dominio del lenguaje suficiente como para crear empatía e interés en los que escuchan o en 
+los lectores.  
+Los mejores oradores, negociantes y maestros son aquellas personas cuya facilidad y fluidez 
+para expresarse sobresale del resto.  
+Se desea hacer un análisis del vocabulario y la cantidad de palabras que se usan en discursos, 
+charlas, disertaciones, mensajes, etc. 
+Entre los analistas de discursos existen palabras que se consideran “inteligentes o positivas” y 
+otras que se consideran “negativas” (realmente, literalmente, siempre, cosa, fui, súper, entre 
+otras) 
+Para hacerlo se debe desarrollar una aplicación que permita ingresar un discurso y guarde las 
+palabras distintas que se ingresan, así como la cantidad de veces que la misma se usa. 
+Proceso 
+1. Grafique algunos ejemplos y analice lo que se describe 
+2. Seleccione el tipo de árbol que se adecua al planteo 
+3. Determine qué implementación va a realizar.  
+4. Defina si fuera necesario la clase base para representar sus datos 
+5. Defina la clase árbol, su constructor y según la implementación elegida si corresponde 
+la clase nodo 
+Su aplicación debe tener un menú que permita: 
+a. Ingresar un texto 
+b. Saber la cantidad de palabras usadas  
+c. Saber la palabra que más se repite en un discurso (debe omitir los artículos y palabras 
+monosílabas) 
+d. Saber cuántas palabras negativas o poco inteligentes se usan 
+Ayuda: 
+Puede tener listas auxiliares con los monosílabos y con las palabras inteligentes 
