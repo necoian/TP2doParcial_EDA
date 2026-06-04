@@ -1,0 +1,20 @@
+class Nodo {
+    
+    Integer valor;
+    Nodo izquierdo;
+    Nodo derecho;
+
+    public Nodo(Integer valor) {
+        this.valor = valor;
+        this.izquierdo = null;
+        this.derecho = null;
+    }
+
+    public Nodo() {
+    }
+    
+    
+    
+    
+    
+}

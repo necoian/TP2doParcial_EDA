@@ -1,0 +1,26 @@
+//Recorrido por preorden
+    public void recorridoPreO(Nodo raiz, List<Integer> lista) {
+            if (raiz != null) {
+                lista.add(raiz.valor);
+                recorridoPreO(raiz.izquierdo, lista); //por izquierda
+                recorridoPreO(raiz.derecho, lista); //por derecha
+            }
+    }
+    
+    //Recorrido por postorden
+    public void recorridoPostO(Nodo raiz, List<Integer> lista) {
+        if (raiz != null) {
+            recorridoPreO(raiz.izquierdo, lista); //por izquierda
+            recorridoPreO(raiz.derecho, lista); //por derecha
+            lista.add(raiz.valor);
+        }
+    }
+    
+    //Recorrido por preorden
+    public void recorridoInO(Nodo raiz, List<Integer> lista) {
+        if (raiz != null) {
+            recorridoPreO(raiz.izquierdo, lista); //por izquierda
+            lista.add(raiz.valor);
+            recorridoPreO(raiz.derecho, lista); //por derecha
+        }
+    }

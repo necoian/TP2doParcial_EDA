@@ -1,0 +1,37 @@
+class ArbolEnlazado {
+    
+    Nodo raiz;
+
+    public ArbolEnlazado() {
+        this.raiz = null;
+    }
+    
+    public void insertar(int valor) {
+
+        Nodo nuevoNodo = new Nodo(valor);
+        if (raiz==null) {
+            raiz=nuevoNodo;
+        } else {
+            Nodo auxiliar = raiz;
+            Nodo padre;
+            while(true) {
+                padre=auxiliar; //se posiciona en la cabecera del nodo
+                if (valor < auxiliar.valor) {
+                    auxiliar=auxiliar.izquierdo; //si el valor es menor a la cabecera, se va a la izquierda, sino a la derecha
+                    if (auxiliar==null) { //SI en la nueva posición no hay nada, se crea el nodo
+                        padre.izquierdo=nuevoNodo;
+                        return;
+                    }                   
+                } else {
+                    auxiliar=auxiliar.derecho;
+                    if (auxiliar==null) {
+                        padre.derecho=nuevoNodo;
+                        return;
+                    }
+                }
+            }
+        }
+
+    }
+
+}

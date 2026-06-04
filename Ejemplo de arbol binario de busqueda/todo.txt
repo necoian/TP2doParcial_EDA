@@ -1,0 +1,256 @@
+package Ejercicio_2.EjercicioTodo;
+
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+
+class Nodo {
+    
+    Integer valor;
+    Nodo izquierdo;
+    Nodo derecho;
+
+    public Nodo(Integer valor) {
+        this.valor = valor;
+        this.izquierdo = null;
+        this.derecho = null;
+    }
+
+    public Nodo() {
+    }
+    
+    
+    
+    
+    
+}
+
+class ArbolEnlazado {
+    
+    Nodo raiz;
+
+    public ArbolEnlazado() {
+        this.raiz = null;
+    }
+    
+    public void insertar(int valor) {
+
+        Nodo nuevoNodo = new Nodo(valor);
+        if (raiz==null) {
+            raiz=nuevoNodo;
+        } else {
+            Nodo auxiliar = raiz;
+            Nodo padre;
+            while(true) {
+                padre=auxiliar; //se posiciona en la cabecera del nodo
+                if (valor < auxiliar.valor) {
+                    auxiliar=auxiliar.izquierdo; //si el valor es menor a la cabecera, se va a la izquierda, sino a la derecha
+                    if (auxiliar==null) { //SI en la nueva posición no hay nada, se crea el nodo
+                        padre.izquierdo=nuevoNodo;
+                        return;
+                    }                   
+                } else {
+                    auxiliar=auxiliar.derecho;
+                    if (auxiliar==null) {
+                        padre.derecho=nuevoNodo;
+                        return;
+                    }
+                }
+            }
+        }
+
+    }
+    
+    
+    public List<Integer> recorrido(Nodo raiz,int opcion) {
+        List<Integer> listado = new ArrayList<>();
+        
+        switch (opcion) {
+            
+            case 1:
+                recorridoPreO(raiz, listado);
+                break;
+            case 2:
+                recorridoPostO(raiz, listado);
+                break;
+            case 3:
+                recorridoInO(raiz, listado);
+                
+            
+        }
+        
+        return listado;
+    }
+    //Recorrido por preorden
+    public void recorridoPreO(Nodo raiz, List<Integer> lista) {
+            if (raiz != null) {
+                lista.add(raiz.valor);
+                recorridoPreO(raiz.izquierdo, lista); //por izquierda
+                recorridoPreO(raiz.derecho, lista); //por derecha
+            }
+    }
+    
+    //Recorrido por postorden
+    public void recorridoPostO(Nodo raiz, List<Integer> lista) {
+        if (raiz != null) {
+            recorridoPreO(raiz.izquierdo, lista); //por izquierda
+            recorridoPreO(raiz.derecho, lista); //por derecha
+            lista.add(raiz.valor);
+        }
+    }
+    
+    //Recorrido por preorden
+    public void recorridoInO(Nodo raiz, List<Integer> lista) {
+        if (raiz != null) {
+            recorridoPreO(raiz.izquierdo, lista); //por izquierda
+            lista.add(raiz.valor);
+            recorridoPreO(raiz.derecho, lista); //por derecha
+        }
+    }
+    
+    public boolean busqueda(int valor) {  
+        Nodo auxiliar = raiz;
+        if (auxiliar.valor == valor) {
+            return true;
+        }
+        try {
+            while (auxiliar.valor != valor) {
+
+                if (auxiliar.valor > valor) {
+                    auxiliar = auxiliar.izquierdo;
+                } else if (auxiliar.valor < valor) {
+                    auxiliar = auxiliar.derecho;
+                }
+                if (auxiliar.valor == valor) {
+                    return true;
+                }
+
+            }
+        } catch (java.lang.NullPointerException e) {
+            return false;
+        }
+
+
+        return false;
+
+    }
+    
+    
+    
+}
+
+class Test {
+    
+    public static void main(String[] args) {
+        
+        ArbolEnlazado arbol = new ArbolEnlazado();
+        
+        /* PRUEBA
+        arbol.insertar(15); 
+        arbol.insertar(13);
+        arbol.insertar(17);
+        arbol.insertar(11);
+        arbol.insertar(14);
+        arbol.insertar(19);
+        arbol.insertar(16);
+        arbol.insertar(5);
+        arbol.insertar(31);
+        arbol.insertar(32);
+        
+        System.out.println("");
+        
+        arbol.recorridoPreO(arbol.raiz);
+        
+        System.out.println("");
+        
+        System.out.println("El 5 se encuentra en el arbol?: " + arbol.busqueda(5));
+        
+        */
+        
+        int opcion = -1;
+        JOptionPane.showMessageDialog(null, "BIENVENIDO AL TEST DE ARBOL ENLAZADO");
+        
+        do {
+            
+            try {
+                opcion =Integer.parseInt(JOptionPane.showInputDialog("Se brinda las opciones disponibles:"
+                        + "\n1.Insertar valor en arbol"
+                        + "\n2.Buscar valor en arbol"
+                        + "\n3.Ordenar en preOrden"
+                        + "\n4.Ordenar en PostOrden"
+                        + "\n5.Ordenar en InOrden"
+                        + "\n0.Salir", "1"));
+            } catch (java.lang.NumberFormatException e) {
+                opcion = -1;
+            }
+            
+            switch (opcion) {
+                
+                case 1:
+                    try {
+                        opcion = Integer.parseInt(JOptionPane.showInputDialog(null, "Coloque un valor entero positivo(natural) para el nuevo nodo : "));
+                        } catch (java.lang.NumberFormatException e) {
+                            opcion = -1; //Para que entre al while
+                        }                    
+                    while(opcion <= 0) {
+                        try {
+                        opcion = Integer.parseInt(JOptionPane.showInputDialog(null, "POR FAVOR COLOQUE UN VALOR VALIDO, DEBE SER UN NUMERO NATURAL (de 1 hacia arriba)"));
+                        } catch (java.lang.NumberFormatException e) {
+                            opcion = -1;
+                        }
+                        
+                    }
+                        
+                    arbol.insertar(opcion);
+                    JOptionPane.showMessageDialog(null, "Se ha ingresado al arbol el valor: " + opcion);
+                    
+                    opcion=-1;
+                    break;
+                case 2:
+                    try {
+                        opcion = Integer.parseInt(JOptionPane.showInputDialog(null, "Coloque el valor a buscar (numero natural) en el arbol : "));
+                    } catch (java.lang.NumberFormatException e) {
+                        opcion = -1; //Para que entre al while
+                    }
+                    while (opcion <= 0) {
+                        try {
+                            opcion = Integer.parseInt(JOptionPane.showInputDialog(null, "POR FAVOR COLOQUE UN VALOR VALIDO, DEBE SER UN NUMERO NATURAL (de 1 hacia arriba)"));
+                        } catch (java.lang.NumberFormatException e) {
+                            opcion = -1;
+                        }
+
+                    }
+                    
+                    if (arbol.busqueda(opcion)) {
+                        JOptionPane.showMessageDialog(null, "El numero : " + opcion + " Si se encuentra en el arbol ");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No se encuentra el valor en el arbol");
+                    }
+
+                    opcion = -1;
+                    break;
+                case 3:
+                    JOptionPane.showMessageDialog(null, "Se brinda el PreOrden del arbol: \n" + arbol.recorrido(arbol.raiz, 1));
+                    break;
+                case 4:
+                    JOptionPane.showMessageDialog(null, "Se brinda el PostOrden del arbol: \n" + arbol.recorrido(arbol.raiz, 2));
+                    break;
+                case 5:
+                    JOptionPane.showMessageDialog(null, "Se brinda el InOrden del arbol: \n" + arbol.recorrido(arbol.raiz, 3));
+                    break;
+                case 0:
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null, "POR FAVOR COLOQUE UN VALOR VALIDO, ENTRE LA OPCION 0 AL 5");
+                
+            }
+            
+            
+        } while(opcion != 0);
+        
+        
+        JOptionPane.showMessageDialog(null, "GRACIAS POR UTILIZAR ESTE SISTEMA");
+        
+    }
+    
+}
