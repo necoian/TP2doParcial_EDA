@@ -89,7 +89,7 @@ class Arbol {
             
             return new Nodo(palabra);
             
-        }
+        }//ayuda a cerrar la recursividad
         
         int comparacion = palabra.compareTo(nodo.getPalabra()); //0 si es igual (suma frecuencia), -1 si es menor alfabeticamente, 1 si es mayor
         
@@ -120,6 +120,31 @@ class Arbol {
         raiz = null;
         
     }
+    
+    /**
+     * Es para contar la cantidad de nodos (cantidad total de palabras sin repetirse)
+     * @return retorna la acumulacion de nodos (todos) utiliza recursividad
+     */
+    
+    public int cantidadNodos() {
+        return cantidadRecursiva(raiz);
+    }
+    
+    /**
+     * 
+     * @param nodo se brinda todos los nodos de forma recursiva hasta el final (para sumar su totalidad)
+     * @return retorna el nodo actual + todos los nodos a la izquierda y derecha
+     */
+    
+    private int cantidadRecursiva(Nodo nodo) {
+        
+        if (nodo == null) {
+            return 0;
+        }//ayuda a cerrar la recursividad
+        
+        return 1 + cantidadRecursiva(nodo.getIzquierdo()) + cantidadRecursiva(nodo.getDerecho());
+        
+    }
 
     
 }
@@ -135,7 +160,7 @@ class TP2Parcial {
     public static void main(String[] args) {
         
         Arbol arbolABB = new Arbol();
-        int opcion = -1;
+        int opcion = -1, cantidadDePalabras = 0;
         String entrada = null;
         String sistema = "#########################################\n"
                 + "____________________________________\n"  
@@ -175,6 +200,7 @@ class TP2Parcial {
                      * Con un for each se agregaran todas las palabras al arbol mediante su funcion insertarNodo
                      */
                     String[] entradaSeparada = entrada.toLowerCase().split("\\W+");
+                    cantidadDePalabras = entradaSeparada.length;
                     for (String ps : entradaSeparada) {
                         arbolABB.insertarNodo(ps);
                     }
@@ -182,7 +208,9 @@ class TP2Parcial {
                     break;
                 case 2:
                     if (entrada!=null) {
-                        
+                        JOptionPane.showMessageDialog(null, entrada
+                                + "\nLa cantidad de palabras en su totalidad es : \n"+ cantidadDePalabras +
+                                "\nLa cantidad de palabras sin repetirse es : " + arbolABB.cantidadNodos());
                     } else {
                         JOptionPane.showMessageDialog(null, "Debe ingresar un texto primero");
                     }
