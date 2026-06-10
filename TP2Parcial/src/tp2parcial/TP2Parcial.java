@@ -1,5 +1,7 @@
 package tp2parcial;
 
+import javax.swing.JOptionPane;
+
 /**
  * Esta clase representa cada nodo del arbol.
  * Permite saber qué palabras se utilizaron y su frecuencia en el texto.
@@ -113,11 +115,84 @@ class Arbol {
 }
 
 
-
+/**
+ * esta clase contendrá el main donde se llevará a cabo el menu para las distintas opciones del sistema
+ * 
+ * 
+ */
 class TP2Parcial {
-
     
     public static void main(String[] args) {
+        
+        Arbol arbolABB = new Arbol();
+        int opcion = -1;
+        String entrada = null;
+        String sistema = "#########################################\n"
+                + "____________________________________\n"  
+                + "Dime como hablas y sabré muchas cosas\n"
+                + "____________________________________\n"
+                + "#########################################\n";
+        JOptionPane.showMessageDialog(null, sistema);
+        
+        do {
+            
+            try {
+                opcion =Integer.parseInt(JOptionPane.showInputDialog("Se brinda las opciones disponibles:"
+                        + "\n1.Ingresar un texto"
+                        + "\n2.Saber la cantidad de palabras usadas"
+                        + "\n3.Saber la palabra que más se repite"
+                        + "\n4.Saber cuántas palabras negativas o poco inteligentes se usan"
+                        + "\n0.Salir", "1"));
+            } catch (java.lang.NumberFormatException e) {
+                opcion = -1;
+            }
+            
+            switch (opcion) {
+                
+                case 1:
+                    
+                    break;
+                case 2:
+                    if (entrada!=null) {
+                        
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Debe ingresar un texto primero");
+                    }
+                    
+                    break;
+                case 3:
+                    if (entrada!=null) {
+                        
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Debe ingresar un texto primero");
+                    }
+                    
+                    break;
+                case 4:
+                    if (entrada != null) {
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Debe ingresar un texto primero");
+                    }
+                    
+                    break;
+                case 0:
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null, "POR FAVOR COLOQUE UN VALOR VALIDO, ENTRE LA OPCION 0 AL 4");
+                
+            }
+            
+            
+        } while(opcion != 0);
+        
+        sistema = "#########################################\n"
+                + "____________________________________\n"  
+                + "GRACIAS POR UTILIZAR NUESTRO SISTEMA\n"
+                + "____________________________________\n"
+                + "#########################################\n";
+        JOptionPane.showMessageDialog(null, sistema);
+        
         
     }
     
