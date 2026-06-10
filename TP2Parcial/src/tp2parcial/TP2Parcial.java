@@ -68,6 +68,9 @@ class Nodo {
 class Arbol {
     
     private Nodo raiz;
+    private Nodo nodoMR; //Nodo (palabra) que mas se repite, sin tener en cuenta monosílabos o articulos
+    private String regexMonosilabas = "[b-df-hj-np-tv-xyzñ]*([aeiouáéíóúü]+)[b-df-hj-np-tv-xyzñ]*"; //se utiliza para palabras con una sola sílaba (ej. sol)
+    private String regexArticulos = "(el|la|los|las|un|una|unos|unas|lo|al|del|para|como|que|con)"; //se utiliza para articulos
     /**
      * Se utiliza la funcion insertarNodo de manera publica para utilizarse en el sistema
      * Se realiza insercion por recursividad (inRecursivo), es decir, se va repitiendo la funcion en si misma hasta que se cumpla la condicion
@@ -118,6 +121,7 @@ class Arbol {
     public void liberarArbol() {
         
         raiz = null;
+        nodoMR = null;
         
     }
     
@@ -143,6 +147,45 @@ class Arbol {
         }//ayuda a cerrar la recursividad
         
         return 1 + cantidadRecursiva(nodo.getIzquierdo()) + cantidadRecursiva(nodo.getDerecho());
+        
+    }
+
+    /**
+     * Este get es importante porque primero se debe cumplir la funcion masRepetido(Nodo nodo) y luego retorna el resultado
+     * @return se retorna el nodo con mas frecuencia
+     */
+    public Nodo getNodoMR() {
+        masRepetido(raiz);
+        return nodoMR;
+    }
+    /**
+     * La funcion se utiliza para determinar el nodo con mas frecuencia (la palabra que mas se repite).
+     * Se utiliza el recorrido InOrden.
+     * @param nodo brinda el nodo actual de la funcion recursiva
+     */
+    private void masRepetido(Nodo nodo) {
+        
+        if (nodo != null) {
+            
+            masRepetido(nodo.getIzquierdo());
+            /**
+             * Se tomara solamente las palabras que no sean monosilabas ni articulos
+             */
+            if (!nodo.getPalabra().matches(regexArticulos) && !nodo.getPalabra().matches(regexMonosilabas)) {
+                /**
+                 * Va comparando los contadores de los nodos para saber cual es el mayor y lo almacena en nodoMR
+                 */
+                if (nodoMR == null || nodo.getContador() > nodoMR.getContador()) {
+                    nodoMR = nodo;
+                }
+                
+            }
+            
+            masRepetido(nodo.getDerecho());
+            
+        }
+        
+        
         
     }
 
@@ -218,6 +261,11 @@ class TP2Parcial {
                     break;
                 case 3:
                     if (entrada!=null) {
+                        try {
+                            JOptionPane.showMessageDialog(null,entrada +"\nLa palabra que mas se repite en el discurso es:\n " + arbolABB.getNodoMR().getPalabra());
+                        } catch (java.lang.NullPointerException e) {
+                            JOptionPane.showMessageDialog(null, "No hay palabras que no sean articulos o monosilabas, por lo tanto no se puede saber cual es la mas frecuente, coloca otro discurso");
+                        }
                         
                     } else {
                         JOptionPane.showMessageDialog(null, "Debe ingresar un texto primero");
