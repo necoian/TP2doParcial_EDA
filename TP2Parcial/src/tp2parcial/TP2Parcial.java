@@ -1,5 +1,6 @@
 package tp2parcial;
 
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -67,10 +68,22 @@ class Nodo {
 
 class Arbol {
     
+    /*
+    ACLARACION: NO SE ESTA UTILIZANDO LIBRERIAS EXTERNAS, REGEX (EXPRESIONES REGULARES) SON
+    SECUENCIAS DE CARACTERES QUE BRINDA PATRONES PARA POSIBLES COINCIDENCIA DE PALABRAS, 
+    SE UTILIZA LA FUNCION matches() NATIVO DE STRING PARA COMPARAR PALABRAS CON LAS REGEX.
+    */
     private Nodo raiz;
     private Nodo nodoMR; //Nodo (palabra) que mas se repite, sin tener en cuenta monosílabos o articulos
-    private String regexMonosilabas = "[b-df-hj-np-tv-xyzñ]*([aeiouáéíóúü]+)[b-df-hj-np-tv-xyzñ]*"; //se utiliza para palabras con una sola sílaba (ej. sol)
-    private String regexArticulos = "(el|la|los|las|un|una|unos|unas|lo|al|del|para|como|que|con)"; //se utiliza para articulos
+    private String regexMonosilabas = "[b-df-hj-np-tv-xyzñ]*([aeiouáéíóúü]+)[b-df-hj-np-tv-xyzñ]*"; //se utiliza un regex para filtrar monosilabas (ej. sol)
+    private List<String> articulos = List.of("el", "la", "los", "las", "un", "una", "unos", "unas", "lo", "al", "del", "para", "como", "que", "con"); //se utiliza una lista de Strings para los articulos
+    private List<String> PPoPN = List.of(
+    "realmente", "literalmente", "siempre", "fui", "super", 
+    "cosa", "cosas", "tema", "temas", "cuestion", "cuestiones", "hecho", "hechos", "algo", "esto", "eso",
+    "digamos", "o", "sea", "tipo", "basicamente", "obviamente", "claramente", "bueno", "este", "eh", "nada", "viste",
+    "totalmente", "absolutamente", "fundamentalmente", "historicamente"
+    ); //Se pone un extenso listado de palabras poca inteligentes o palabras negativas
+    
     /**
      * Se utiliza la funcion insertarNodo de manera publica para utilizarse en el sistema
      * Se realiza insercion por recursividad (inRecursivo), es decir, se va repitiendo la funcion en si misma hasta que se cumpla la condicion
@@ -171,7 +184,7 @@ class Arbol {
             /**
              * Se tomara solamente las palabras que no sean monosilabas ni articulos
              */
-            if (!nodo.getPalabra().matches(regexArticulos) && !nodo.getPalabra().matches(regexMonosilabas)) {
+            if (!nodo.getPalabra().contains((CharSequence) articulos) && !nodo.getPalabra().matches(regexMonosilabas)) {
                 /**
                  * Va comparando los contadores de los nodos para saber cual es el mayor y lo almacena en nodoMR
                  */
