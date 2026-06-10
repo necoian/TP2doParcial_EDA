@@ -110,7 +110,17 @@ class Arbol {
         return nodo;
     }
     
+    /**
+     * Como indica su nombre, es para liberar todo nodo creado del arbol.
+     * Se utlizara principalmente cuando se quiera trabajar con un nuevo discurso.
+     */
     
+    public void liberarArbol() {
+        
+        raiz = null;
+        
+    }
+
     
 }
 
@@ -138,7 +148,7 @@ class TP2Parcial {
             
             try {
                 opcion =Integer.parseInt(JOptionPane.showInputDialog("Se brinda las opciones disponibles:"
-                        + "\n1.Ingresar un texto"
+                        + "\n1.Ingresar un discurso"
                         + "\n2.Saber la cantidad de palabras usadas"
                         + "\n3.Saber la palabra que más se repite"
                         + "\n4.Saber cuántas palabras negativas o poco inteligentes se usan"
@@ -150,6 +160,24 @@ class TP2Parcial {
             switch (opcion) {
                 
                 case 1:
+                    entrada = JOptionPane.showInputDialog("Ingrese el discurso deseado : ");
+                    while(entrada.length()<6) {
+                        entrada = JOptionPane.showInputDialog("Coloque un discurso mas largo por favor : ");
+                    }
+                    
+                    arbolABB.liberarArbol(); //MUY IMPORTANTE LIBERARLO, SI NO SIGUE AGREGANDO NODOS
+                    
+                    
+                    /**
+                     * Se crea un arreglo de String para tomar la entrada pero por palabras.
+                     * Se toma en cuenta que todo quede en minuscula (esto ayuda a las comparaciones)
+                     * Además, se utiliza split (para separar) con el regex \W* (https://www.regexroo.com/word-characters) que se utiliza para separar las palabras, sin tomar en cuenta signos de puntuacion ni espacios.
+                     * Con un for each se agregaran todas las palabras al arbol mediante su funcion insertarNodo
+                     */
+                    String[] entradaSeparada = entrada.toLowerCase().split("\\W+");
+                    for (String ps : entradaSeparada) {
+                        arbolABB.insertarNodo(ps);
+                    }
                     
                     break;
                 case 2:
