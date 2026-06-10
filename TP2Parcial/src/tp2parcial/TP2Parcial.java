@@ -78,10 +78,11 @@ class Arbol {
     private String regexMonosilabas = "[b-df-hj-np-tv-xyzñ]*([aeiouáéíóúü]+)[b-df-hj-np-tv-xyzñ]*"; //se utiliza un regex para filtrar monosilabas (ej. sol)
     private List<String> articulos = List.of("el", "la", "los", "las", "un", "una", "unos", "unas", "lo", "al", "del", "para", "como", "que", "con"); //se utiliza una lista de Strings para los articulos
     private List<String> PPoPN = List.of(
-    "realmente", "literalmente", "siempre", "fui", "super", 
-    "cosa", "cosas", "tema", "temas", "cuestion", "cuestiones", "hecho", "hechos", "algo", "esto", "eso",
-    "digamos", "o", "sea", "tipo", "basicamente", "obviamente", "claramente", "bueno", "este", "eh", "nada", "viste",
-    "totalmente", "absolutamente", "fundamentalmente", "historicamente"
+    "realmente", "literalmente", "siempre",
+    "basicamente", "obviamente", "claramente", "cosa", "fui", "osea", "súper", "entre", 
+    "otras","totalmente", "absolutamente", "fundamentalmente",
+    "digamos", "tipo", "viste", "cosas", "tema", "temas",
+    "cuestion", "cuestiones", "hecho", "hechos"
     ); //Se pone un extenso listado de palabras poca inteligentes o palabras negativas
     
     /**
@@ -184,7 +185,7 @@ class Arbol {
             /**
              * Se tomara solamente las palabras que no sean monosilabas ni articulos
              */
-            if (!nodo.getPalabra().contains((CharSequence) articulos) && !nodo.getPalabra().matches(regexMonosilabas)) {
+            if (!articulos.contains(nodo.getPalabra()) && !nodo.getPalabra().matches(regexMonosilabas)) {
                 /**
                  * Va comparando los contadores de los nodos para saber cual es el mayor y lo almacena en nodoMR
                  */
@@ -197,8 +198,54 @@ class Arbol {
             masRepetido(nodo.getDerecho());
             
         }
+ 
+    }
+    
+    /**
+     * Se utiliza esta funcion intermedia para brindar la cantidad de palabras negativas en el discurso
+     * Se toma la comparacion de un listado dentro de la clase arbol
+     * @return retorna un arreglo de int, donde la primera posicion toma la cantidad de palabras negativas con repeticion y la segunda sin repetir
+     * 
+     */
+    public int[] cantidadNegativas() {
+        
+        return negativasRecursiva(raiz);
+        
+    }
+
+    /**
+     * Funcion interna que utiliza la recursividad para generar un recorrido de PreOrden y calcular la cantidad de palabras
+     * negativas segun frecuencia y sin repetir, termina la recursividad con el if(nodo == null)
+     * @param nodo nodo actual dentro de la recursividad
+     * @return retorna un arreglo de int, donde la primera posicion toma la cantidad de palabras negativas con repeticion y la segunda sin repetir
+     */
+    private int[] negativasRecursiva(Nodo nodo) {
+        
+        int[] sumar = {0,0};
+        
+        if (nodo == null) {
+            return sumar;
+        }
         
         
+        /*
+        La posicion 0 toma la cantidad de palabras negativas con su frecuencia(repeticion), 
+        La posicion 1 toma la cantidad de palabras negativas sin tomar en cuenta si se repiten o no
+        */
+        if (PPoPN.contains(nodo.getPalabra())) {
+            
+            sumar[0] += nodo.getContador();
+            sumar[1]++;
+            
+        }
+        
+        int[] izquierdo = negativasRecursiva(nodo.getIzquierdo());
+        int[] derecho = negativasRecursiva(nodo.getDerecho());
+        
+        sumar[0] += izquierdo[0] + derecho[0];
+        sumar[1] += derecho[1] + izquierdo[1];
+        
+        return sumar;
         
     }
 
@@ -275,7 +322,12 @@ class TP2Parcial {
                 case 3:
                     if (entrada!=null) {
                         try {
-                            JOptionPane.showMessageDialog(null,entrada +"\nLa palabra que mas se repite en el discurso es:\n " + arbolABB.getNodoMR().getPalabra());
+                            if (arbolABB.getNodoMR().getContador() > 1) {
+                                JOptionPane.showMessageDialog(null,entrada +"\nLa palabra que mas se repite en el discurso es:\n " + arbolABB.getNodoMR().getPalabra());
+                            } else {
+                                JOptionPane.showMessageDialog(null,entrada +"\nNo hay ninguna palabra que se repita en este discurso");
+                            }
+                            
                         } catch (java.lang.NullPointerException e) {
                             JOptionPane.showMessageDialog(null, "No hay palabras que no sean articulos o monosilabas, por lo tanto no se puede saber cual es la mas frecuente, coloca otro discurso");
                         }
@@ -287,7 +339,9 @@ class TP2Parcial {
                     break;
                 case 4:
                     if (entrada != null) {
-
+                        JOptionPane.showMessageDialog(null, entrada
+                                + "\nLa cantidad de palabras negativas tomando en cuenta la repeticion es : \n"+ arbolABB.cantidadNegativas()[0] +
+                                "\nLa cantidad de palabras negativas sin repetirse es : " + arbolABB.cantidadNegativas()[1]);
                     } else {
                         JOptionPane.showMessageDialog(null, "Debe ingresar un texto primero");
                     }
